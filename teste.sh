@@ -18,8 +18,8 @@
  
 ##fixed parameters
 #openerp
-OE_USER="Servidor001"
-OE_HOME="/opt/Servidor001/$OE_USER"
+OE_USER="Servidor002"
+OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 OE_REPORT_HOME="$OE_HOME/report"
 OE_REPORT_ENGINE="$OE_REPORT_HOME/engine"
@@ -243,34 +243,3 @@ sudo update-rc.d $OE_CONFIG defaults
  
 sudo service $OE_CONFIG start
 echo "Done! The ODOO server can be started with: service $OE_CONFIG start"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
