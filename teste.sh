@@ -44,21 +44,16 @@ sudo apt-get upgrade -y
 
 
 
-
-#--------------------------------------------------
-# CONFIGURADO E INSTALADO POR MIM
-#--------------------------------------------------
-
-echo "Instalando git"
-sudo apt-get install git -y
-echo "Pacote git instalado"
-
-
 #--------------------------------------------------
 # Install PostgreSQL Server
 #--------------------------------------------------
 echo -e "\n---- Install PostgreSQL Server ----"
 sudo apt-get install postgresql -y
+
+echo "Instalando pgadmin"
+sudo apt install pgadmin3 -y
+echo "pgAdmin instalado"
+
 
 sudo -u postgres -- psql -c "ALTER USER postgres WITH PASSWORD '1q2w3e';"
 	
