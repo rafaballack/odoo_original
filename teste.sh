@@ -18,7 +18,7 @@
  
 ##fixed parameters
 #openerp
-OE_USER="Servidor002"
+OE_USER="odoo"
 OE_HOME="/opt/$OE_USER"
 OE_HOME_EXT="/opt/$OE_USER/$OE_USER-server"
 OE_REPORT_HOME="$OE_HOME/report"
@@ -34,14 +34,12 @@ OE_VERSION="10.0"
 OE_SUPERADMIN="admin"
 OE_CONFIG="$OE_USER-server"
 
-
 #--------------------------------------------------
 # Update Server
 #--------------------------------------------------
 echo -e "\n---- Update Server ----"
 sudo apt-get update
 sudo apt-get upgrade -y
-
 
 #--------------------------------------------------
 # Install PostgreSQL Server
@@ -54,7 +52,6 @@ sudo sed -i s/"#listen_addresses = 'localhost'"/"listen_addresses = '*'"/g /etc/
 
 echo -e "\n---- Creating the ODOO PostgreSQL User  ----"
 sudo su - postgres -c "createuser -s $OE_USER" 2> /dev/null || true
-
 
 #--------------------------------------------------
 # Install Dependencies
@@ -83,27 +80,12 @@ sudo add-apt-repository ppa:ecometrica/servers -y
 sudo apt-get update
 sudo apt-get install wkhtmltopdf -y
 
-echo "==== Instalando dependências da Localização Brasileira ===="
-sudo -H pip install pytrustnfe
-sudo -H pip install python-boleto
-sudo -H pip install python-cnab
-
-
-echo "==== Instalando dependências da Localização Brasileira ===="
-sudo apt-get install --no-install-recommends python-libxml2 -y
-sudo apt-get install --no-install-recommends libxmlsec1-dev -y
-sudo apt-get install --no-install-recommends python-openssl -y
-sudo apt-get install --no-install-recommends python-cffi -y
-
-
 echo -e "\n---- Create ODOO system user ----"
-sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'Servidor001' --group $OE_USER
+sudo adduser --system --quiet --shell=/bin/bash --home=$OE_HOME --gecos 'ODOO' --group $OE_USER
 
 echo -e "\n---- Create Log directory ----"
 sudo mkdir /var/log/$OE_USER
 sudo chown $OE_USER:$OE_USER /var/log/$OE_USER
-
-
 
 #--------------------------------------------------
 # Install ODOO
@@ -125,7 +107,6 @@ sudo su $OE_USER -c "mkdir $OE_HOME/custom/addons"
 
 echo -e "\n---- Setting permissions on home folder ----"
 sudo chown -R $OE_USER:$OE_USER $OE_REPORT_HOME/*
-
 
 echo -e "\n---- Creating modules folder ----"
 sudo mdkdir $OE_MODULES_HOME
@@ -153,9 +134,6 @@ echo -e "* Create startup file"
 sudo su root -c "echo '#!/bin/sh' >> $OE_HOME_EXT/start.sh"
 sudo su root -c "echo 'sudo -u $OE_USER $OE_HOME_EXT/openerp-server --config=/etc/$OE_CONFIG.conf' >> $OE_HOME_EXT/start.sh"
 sudo chmod 755 $OE_HOME_EXT/start.sh
-
-
-
 
 #--------------------------------------------------
 # Adding ODOO as a deamon (initscript)
@@ -243,3 +221,6 @@ sudo update-rc.d $OE_CONFIG defaults
  
 sudo service $OE_CONFIG start
 echo "Done! The ODOO server can be started with: service $OE_CONFIG start"
+
+
+
